@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -35,10 +37,22 @@ public class ItemController {
 
     @PostMapping("/items")
     public ResponseEntity<Item> addItem(@Valid @RequestBody Item newItem) {
-        int newId = items.size() + 1; 
-        newItem.setId(newId); 
-        items.add(newItem); 
+        int newId = items.size() + 1;
+        newItem.setId(newId);
+        items.add(newItem);
         return ResponseEntity.ok(newItem);
     }
-    
+
+    @PutMapping("/items/{id}")
+    public ResponseEntity<Item> updateItem(@PathVariable int id, @Valid @NotNull @RequestBody Item updatedItem) {
+        Item existingItem = items.stream().filter(item -> item.getId() == id).findFirst().orElse(null);
+        if (existingItem == null) {
+            return ResponseEntity.notFound().build();
+        }
+        existingItem.setName(updatedItem.getName());
+        existingItem.setDescription(updatedItem.getDescription());
+        existingItem.setPrice(updatedItem.getPrice());
+        return ResponseEntity.ok(existingItem);
+    }
+
 }

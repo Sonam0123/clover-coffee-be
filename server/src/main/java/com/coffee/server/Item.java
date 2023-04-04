@@ -2,6 +2,7 @@ package com.coffee.server;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.Valid;
 
 public class Item {
     private int id;
@@ -50,7 +51,7 @@ public class Item {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrice(@Valid @NotNull int price2) {
+        this.price = price2;
     }
 }
