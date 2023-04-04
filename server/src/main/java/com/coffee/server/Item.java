@@ -1,14 +1,24 @@
 package com.coffee.server;
 
 public class Item {
+    private int id;
     private String name;
     private String description;
     private int price;
 
-    public Item(String name, String description, int price) {
+    public Item(int id, String name, String description, int price) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
