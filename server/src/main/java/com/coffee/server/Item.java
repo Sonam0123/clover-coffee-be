@@ -1,9 +1,18 @@
 package com.coffee.server;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class Item {
     private int id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String description;
+
+    @Min(0)
     private int price;
 
     public Item(int id, String name, String description, int price) {
