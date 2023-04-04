@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,5 +55,17 @@ public class ItemController {
         existingItem.setPrice(updatedItem.getPrice());
         return ResponseEntity.ok(existingItem);
     }
+
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity<String> deleteItem(@PathVariable int id) {
+        boolean removed = items.removeIf(item -> item.getId() == id);
+        if (removed) {
+            return ResponseEntity.ok("Item with ID " + id + " has been deleted");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    
 
 }
