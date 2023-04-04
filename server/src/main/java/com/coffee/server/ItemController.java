@@ -58,12 +58,13 @@ public class ItemController {
 
     @DeleteMapping("/items/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable int id) {
-        boolean removed = items.removeIf(item -> item.getId() == id);
-        if (removed) {
-            return ResponseEntity.ok("Item with ID " + id + " has been deleted");
-        } else {
-            return ResponseEntity.notFound().build();
+        Item itemToDelete = items.stream().filter(item -> item.getId() == id).findFirst().orElse(null);
+        if (itemToDelete != null) {
+            items.remove(itemToDelete);
+            String message = "Item " + id + " has been deleted!";
+            return ResponseEntity.ok(message);
         }
+        return ResponseEntity.notFound().build();
     }
 
     
